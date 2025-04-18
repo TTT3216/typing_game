@@ -15,7 +15,7 @@ MarkupSafe==3.0.2
 # mysqlclient==2.2.7  # PyMySQLを使うのでコメントアウトまたは削除
 pycparser==2.22
 pykakasi==2.3.0
-PyMySQL==1.1.1
+# PyMySQL==1.1.1
 SQLAlchemy==2.0.40
 typing_extensions==4.13.2
 # waitress==3.0.2  # gunicornを使うのでコメントアウトまたは削除
