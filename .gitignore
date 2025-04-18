@@ -20,3 +20,5 @@ Thumbs.db
 # その他 (必要に応じて追加)
 # 例: instance/ (Flaskのインスタンスフォルダ)
 # 例: *.sqlite3 (SQLiteデータベースファイル)
+
+*.db
