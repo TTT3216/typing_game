@@ -1,0 +1,588 @@
+/* Google Fonts の読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+/* 基本設定とフォント指定 */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.6;
+    background-image: url('images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 90%;
+}
+
+/* --- ヘッダー --- */
+header {
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#menu-button {
+    font-size: 1.5em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+#menu-button:hover {
+    background-color: #0056b3;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #000;
+}
+
+/* --- フッター --- */
+footer {
+    background-color: #e9e9e9;
+    padding: 15px 20px;
+    border-top: 1px solid #ccc;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    text-align: center;
+}
+
+footer a {
+    display: inline-block;
+    line-height: 0;
+}
+
+.footer-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* --- レスポンシブ対応 (600px以下) --- */
+@media (max-width: 600px) {
+    header {
+        padding: 10px 15px;
+    }
+    header h1 {
+        font-size: 1.5em;
+    }
+    main {
+        padding: 15px;
+        width: 95%;
+    }
+    footer {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 5px;
+    }
+    footer p {
+        font-size: 0.8em;
+    }
+}
+
+/* --- ログイン画面、ゲーム画面の基本スタイル --- */
+#login-screen, #game-screen {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* ★ ネガティブマージンで要素がはみ出ても隠す */
+}
+
+#login-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#login-screen .setting-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+#login-screen .setting-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+#login-screen .radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+#login-screen .radio-group label {
+    font-weight: normal;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+#login-screen .radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+
+#login-screen input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+}
+
+#login-screen button { /* ゲーム開始ボタンとルールボタン共通 */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+#login-button { /* ゲーム開始ボタン */
+    background-color: #007bff;
+    color: white;
+}
+#login-button:hover {
+    background-color: #0056b3;
+}
+/* ★ ルール表示切り替えボタンのスタイル */
+#toggle-rules-button {
+    background-color: #6c757d; /* グレー系 */
+    color: white;
+    margin-top: 10px; /* 上の要素との間隔 */
+}
+#toggle-rules-button:hover {
+    background-color: #5a6268;
+}
+
+
+.error-message {
+    color: red; /* ★注意: この基本スタイルは下の詳細スタイルで上書きされる */
+    font-size: 0.9em;
+    min-height: 1.2em;
+    margin-top: 5px;
+}
+/* ★注意: 以前の .error-message.correct などの定義は削除し、
+   下の .message-display を使うように統一 */
+/* .error-message.correct { color: green; } */
+/* .error-message.typing { color: #007bff; } */
+
+
+/* --- ゲーム画面のレイアウト --- */
+#game-screen {
+    width: 80%;
+    max-width: 800px;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 auto;
+}
+
+#game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+#typing-area {
+    text-align: center;
+}
+
+#word-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    color: #333;
+    min-height: 1.5em;
+}
+
+#input-display {
+    font-size: 1.8em;
+    color: #333;
+    min-height: 1.5em;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 2px;
+    display: inline-block;
+}
+
+#hiragana-display {
+    font-size: 1.2em;
+    color: #888;
+    margin-top: 5px;
+    min-height: 1.2em;
+}
+
+#romaji-history-display {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 15px;
+    min-height: 1.2em;
+}
+
+#score-display {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
+/* --- モーダル共通スタイル --- */
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 750px;
+    position: relative;
+}
+
+#menu-modal .modal-content {
+    max-width: 400px;
+    padding: 25px 30px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.modal-content > p {
+    font-size: 1.1em;
+    margin: 15px 0;
+}
+
+/* 閉じるボタン (右上に配置) */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+}
+.close-button:hover {
+    color: #777;
+}
+
+
+/* --- モーダル内のボタン共通スタイル --- */
+.modal-content button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 5px;
+    transition: background-color 0.2s;
+}
+.modal-content button:hover {
+    opacity: 0.9;
+}
+
+/* --- ゲームオーバー画面のボタン配置 --- */
+.modal-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#retry-button {
+    background-color: #28a745;
+    color: white;
+}
+#retry-button:hover {
+    background-color: #218838;
+}
+
+#back-to-login-button {
+    background-color: #6c757d;
+    color: white;
+}
+#back-to-login-button:hover {
+    background-color: #5a6268;
+}
+
+
+/* --- メニューモーダル内のスタイル --- */
+.menu-item {
+    margin-bottom: 15px;
+    text-align: left;
+}
+.menu-item label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.menu-item select,
+.menu-item button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+.menu-item select {
+    width: calc(100% - 90px);
+    max-width: 200px;
+}
+#sound-toggle-button-menu {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    width: 60px;
+    text-align: center;
+}
+#sound-toggle-button-menu:hover {
+    background-color: #138496;
+}
+#logout-button-menu {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    width: 100%;
+    margin-top: 20px;
+}
+#logout-button-menu:hover {
+    background-color: #c82333;
+}
+
+
+/* --- モーダル内の結果詳細表示 (2カラムレイアウト) --- */
+.result-details-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    text-align: left;
+}
+.result-left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.result-right-column {
+    flex: 1.2;
+}
+
+#current-result-over,
+#personal-best-over,
+#ranking-over {
+    margin-bottom: 15px;
+}
+
+.result-details-container h3,
+.result-details-container h4 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.result-left-column p {
+    text-align: center;
+    margin: 5px 0;
+    font-size: 0.95em;
+}
+
+#ranking-table-over {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+#ranking-table-over th,
+#ranking-table-over td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    text-align: center;
+}
+#ranking-table-over th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+#ranking-table-over tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+/* --- レスポンシブ対応 (650px以下) --- */
+@media (max-width: 650px) {
+    /* 結果表示を縦積みに */
+    .result-details-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+    .result-left-column,
+    .result-right-column {
+        flex: none;
+        width: 90%;
+        max-width: 400px;
+    }
+    /* モーダルのパディング調整 */
+    .modal-content {
+        max-width: 90%;
+        padding: 20px 25px;
+    }
+    /* ランキングテーブルの文字サイズ調整 */
+    #ranking-table-over {
+        font-size: 0.8em;
+    }
+    #ranking-table-over th,
+    #ranking-table-over td {
+        padding: 4px 5px;
+    }
+    /* メニューモーダルの幅調整 */
+    #menu-modal .modal-content {
+        max-width: 85%;
+    }
+    /* モーダルボタンを縦積みに */
+    .modal-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-actions button {
+        width: 80%;
+        max-width: 250px;
+    }
+}
+
+/* ▼▼▼ ルール表示セクションのスタイル ▼▼▼ */
+#rules-section {
+    margin-top: 20px; /* ★ ボタンとの間隔を調整 */
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 0 0 8px 8px;
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-bottom: -30px;
+    width: calc(100% + 60px); /* ★ 幅を親要素のpadding分広げる */
+    box-sizing: border-box; /* ★ paddingを含めて幅計算 */
+}
+
+#rules-section h3 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#rules-section p {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    line-height: 1.7;
+}
+
+#rules-section pre {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.85em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+/* ▲▲▲ ルール表示セクションのスタイル ▲▲▲ */
+
+/* --- メッセージ表示エリアのスタイル --- */
+/* ★★★ 修正箇所 ★★★ */
+/* メッセージ表示エリアの基本スタイル */
+.message-display {
+    font-weight: bold;
+    min-height: 1.2em;
+    transition: color 0.2s ease-in-out;
+    /* デフォルトの色は親要素に依存させるか、必要なら指定 */
+    /* color: #333; */
+    /* ★ ゲーム画面内のメッセージ表示要素にIDがあれば、それに対してマージン等を指定 */
+    margin-top: 10px; /* 例: 上に少しマージンを追加 */
+}
+
+/* 正解時のスタイル (明るめの緑) */
+.message-display.correct {
+  color: #4CAF50; /* Material Design Green 500 */
+}
+
+/* 不正解時のスタイル (明るめの赤) */
+.message-display.incorrect {
+  color: #F44336; /* Material Design Red 500 */
+}
+
+/* 入力中のスタイル (明るめの青) */
+.message-display.typing {
+  color: #2196F3; /* Material Design Blue 500 */
+}
+/* ★★★ 修正箇所終了 ★★★ */

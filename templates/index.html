@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修行タイピング</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts (Noto Sans JP) の読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 必要であればここに favicon の link タグを追加 -->
+    <!-- <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
+</head>
+<body>
+
+    <header>
+        <h1>修行タイピング</h1>
+        <div class="header-menu">
+            <!-- メニューボタン -->
+            <button id="menu-button">☰</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- ログイン画面 -->
+        <div id="login-screen">
+            <h2>ユーザー名を入力してください</h2>
+            <input type="text" id="username-input" placeholder="例: guest">
+            <!-- ▼▼▼ 難易度設定 ▼▼▼ -->
+            <div class="setting-group">
+                <label>難易度:</label>
+                <div class="radio-group" id="difficulty-setting">
+                    <label><input type="radio" name="difficulty" value="easy"> 簡単</label>
+                    <label><input type="radio" name="difficulty" value="normal" checked> 普通</label>
+                    <label><input type="radio" name="difficulty" value="hard"> 難しい</label>
+                </div>
+            </div>
+            <!-- ▲▲▲ 難易度設定 ▲▲▲ -->
+            <button id="login-button">ゲーム開始</button>
+            <p id="login-error" class="error-message"></p>
+
+            <!-- ▼▼▼ ルール表示切り替えボタンを追加 ▼▼▼ -->
+            <button id="toggle-rules-button">ルールを表示</button>
+            <!-- ▲▲▲ ルール表示切り替えボタンを追加 ▲▲▲ -->
+
+            <!-- ▼▼▼ ルール表示セクション (デフォルト非表示) ▼▼▼ -->
+            <div id="rules-section" style="display: none;">
+                <h3>ルール</h3>
+                <p>・このゲームは、ローマ字を入力して日本語の単語を完成させるタイピングゲームです。<br>
+                    ・プレイ中に効果音や難易度調整、ログアウトしたくなったら、右上のボタンを押してください。<br>
+                    ・以下は対応しているキーの組み合わせです。これの通りに打ってください。「ん」に関しては、常に「n」を推奨します。</p>
+                <pre id="romaji-rules"><code>{
+    'a': 'あ', 'i': 'い', 'u': 'う', 'e': 'え', 'o': 'お',
+    'ka': 'か', 'ki': 'き', 'ku': 'く', 'ke': 'け', 'ko': 'こ',
+    'sa': 'さ', 'si': 'し', 'shi': 'し', 'su': 'す', 'se': 'せ', 'so': 'そ',
+    'ta': 'た', 'ti': 'ち', 'chi': 'ち', 'tu': 'つ', 'tsu': 'つ', 'te': 'て', 'to': 'と',
+    'na': 'な', 'ni': 'に', 'nu': 'ぬ', 'ne': 'ね', 'no': 'の',
+    'ha': 'は', 'hi': 'ひ', 'hu': 'ふ', 'fu': 'ふ', 'he': 'へ', 'ho': 'ほ',
+    'ma': 'ま', 'mi': 'み', 'mu': 'む', 'me': 'め', 'mo': 'も',
+    'ya': 'や', 'yu': 'ゆ', 'yo': 'よ',
+    'ra': 'ら', 'ri': 'り', 'ru': 'る', 're': 'れ', 'ro': 'ろ',
+    'wa': 'わ', 'wo': 'を', 'n': 'ん',
+    'ga': 'が', 'gi': 'ぎ', 'gu': 'ぐ', 'ge': 'げ', 'go': 'ご',
+    'za': 'ざ', 'zi': 'じ', 'ji': 'じ', 'zu': 'ず', 'ze': 'ぜ', 'zo': 'ぞ',
+    'da': 'だ', 'di': 'ぢ', 'du': 'づ', 'de': 'で', 'do': 'ど',
+    'ba': 'ば', 'bi': 'び', 'bu': 'ぶ', 'be': 'べ', 'bo': 'ぼ',
+    'pa': 'ぱ', 'pi': 'ぴ', 'pu': 'ぷ', 'pe': 'ぺ', 'po': 'ぽ',
+    'kka': 'っか', 'kki': 'っき', 'kku': 'っく', 'kke': 'っけ', 'kko': 'っこ',
+    'ssa': 'っさ', 'ssi': 'っし', 'sshi': 'っし', 'ssu': 'っす', 'sse': 'っせ', 'sso': 'っそ',
+    'tta': 'った', 'tti': 'っち', 'tchi': 'っち', 'ttu': 'っつ', 'ttsu': 'っつ', 'tte': 'って', 'tto': 'っと',
+    'ppa': 'っぱ', 'ppi': 'っぴ', 'ppu': 'っぷ', 'ppe': 'っぺ', 'ppo': 'っぽ',
+    'mma': 'っま', 'mmi': 'っみ', 'mmu': 'っむ', 'mme': 'っめ', 'mmo': 'っも',
+    'hha': 'っは', 'hhi': 'っひ', 'hhu': 'っふ', 'hhe': 'っへ', 'hho': 'っほ',
+    'rra': 'っら', 'rri': 'っり', 'rru': 'っる', 'rre': 'っれ', 'rro': 'っろ',
+    'nna': 'っな', 'nni': 'っに', 'nnu': 'っぬ', 'nne': 'っね', 'nno': 'っの',
+    'kkya': 'っきゃ', 'kkyu': 'っきゅ', 'kkyo': 'っきょ',
+    'ssha': 'っしゃ', 'sshu': 'っしゅ', 'ssho': 'っしょ',
+    'ssya': 'っしゃ', 'ssyu': 'っしゅ', 'ssyo': 'っしょ',
+    'tcha': 'っちゃ', 'tchu': 'っちゅ', 'tcho': 'っちょ',
+    'ttya': 'っちゃ', 'ttyu': 'っちゅ', 'ttyo': 'っちょ',
+    'ppya': 'っぴゃ', 'ppyu': 'っぴゅ', 'ppyo': 'っぴょ',
+    'kya': 'きゃ', 'kyu': 'きゅ', 'kyo': 'きょ',
+    'sha': 'しゃ', 'shu': 'しゅ', 'sho': 'しょ',
+    'sya': 'しゃ', 'syu': 'しゅ', 'syo': 'しょ',
+    'cha': 'ちゃ', 'chu': 'ちゅ', 'cho': 'ちょ',
+    'tya': 'ちゃ', 'tyu': 'ちゅ', 'tyo': 'ちょ',
+    'nya': 'にゃ', 'nyu': 'にゅ', 'nyo': 'にょ',
+    'hya': 'ひゃ', 'hyu': 'ひゅ', 'hyo': 'ひょ',
+    'mya': 'みゃ', 'myu': 'みゅ', 'myo': 'みょ',
+    'rya': 'りゃ', 'ryu': 'りゅ', 'ryo': 'りょ',
+    'gya': 'ぎゃ', 'gyu': 'ぎゅ', 'gyo': 'ぎょ',
+    'ja': 'じゃ', 'ju': 'じゅ', 'jo': 'じょ',
+    'jya': 'じゃ', 'jyu': 'じゅ', 'jyo': 'じょ',
+    'dya': 'ぢゃ', 'dyu': 'ぢゅ', 'dyo': 'ぢょ',
+    'bya': 'びゃ', 'byu': 'びゅ', 'byo': 'びょ',
+    'pya': 'ぴゃ', 'pyu': 'ぴゅ', 'pyo': 'ぴょ',
+    '-': 'ー',
+    'nn': 'ん',
+}</code></pre>
+            </div>
+            <!-- ▲▲▲ ルール表示セクションを追加 ▲▲▲ -->
+
+        </div> <!-- /#login-screen -->
+
+        <!-- ゲーム画面 -->
+        <div id="game-screen" style="display: none;">
+            <!-- メニューモーダル -->
+            <div id="menu-modal" class="modal" style="display: none;">
+                <div class="modal-content menu-modal-content">
+                    <!-- ▼▼▼ 閉じるボタンを右上に移動 ▼▼▼ -->
+                    <span class="close-button" id="close-menu-button">&times;</span>
+                    <h2>メニュー</h2>
+                    <div class="menu-item">
+                        <label for="difficulty-select-menu">難易度:</label>
+                        <select id="difficulty-select-menu">
+                            <option value="easy">簡単</option>
+                            <option value="normal">普通</option>
+                            <option value="hard">難しい</option>
+                        </select>
+                    </div>
+                    <div class="menu-item">
+                        <label for="theme-select-menu">テーマ:</label>
+                        <select id="theme-select-menu">
+                            <option value="共通">色々</option>
+                            <!-- 他のテーマがあればここに追加 -->
+                        </select>
+                    </div>
+                    <div class="menu-item">
+                        <label>効果音:</label>
+                        <button id="sound-toggle-button-menu">ON</button>
+                    </div>
+                     <div class="menu-item">
+                        <button id="logout-button-menu">ログアウト</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ゲームオーバーモーダル -->
+            <div id="game-over-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close-button" id="close-game-over-button">&times;</span>
+                    <h2 id="game-over-title">ゲームオーバー</h2>
+                    <!-- ▼▼▼ 結果表示エリア ▼▼▼ -->
+                    <div class="result-details-container">
+                        <!-- --- 左カラム --- -->
+                        <div class="result-left-column">
+                            <div id="current-result-over">
+                                <h3>今回の結果</h3>
+                                <p>ユーザー名: <span id="current-rank-username-over">-</span></p>
+                                <p>スコア: <span id="current-rank-score-over">-</span></p>
+                                <p>速度: <span id="current-rank-speed-over">-</span> 文字/秒</p>
+                                <p>ミス: <span id="current-rank-misses-over">-</span> 回</p>
+                                <p>テーマ: <span id="current-rank-theme-over">-</span></p>
+                                <p>難易度: <span id="current-rank-difficulty-over">-</span></p>
+                            </div>
+                            <div id="personal-best-over">
+                                <h3>自己ベスト</h3>
+                                <p>スコア: <span id="personal-best-score-over">-</span></p>
+                            </div>
+                        </div>
+                        <!-- --- 右カラム --- -->
+                        <div class="result-right-column">
+                            <div id="ranking-over">
+                                <h3>ランキング Top 10 (<span id="ranking-difficulty-over"></span>)</h3>
+                                <!-- ▼▼▼ ランキング表示をテーブルに戻す ▼▼▼ -->
+                                <table id="ranking-table-over">
+                                    <thead>
+                                        <tr>
+                                            <th>順位</th>
+                                            <th>名前</th>
+                                            <th>スコア</th>
+                                            <th>速度(文字/秒)</th>
+                                            <th>ミス数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- ランキングデータがここに挿入される -->
+                                    </tbody>
+                                </table>
+                                <!-- ▲▲▲ ランキング表示をテーブルに戻す ▲▲▲ -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ▲▲▲ 結果表示エリア ▲▲▲ -->
+                    <div class="modal-actions">
+                        <button id="retry-button">もう一度プレイ</button>
+                        <button id="back-to-login-button">ユーザー選択に戻る</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ゲーム情報表示エリア -->
+            <div id="game-info">
+                <span>難易度: <span id="difficulty-display">普通</span></span>
+                <span>テーマ: <span id="theme-display">色々</span></span>
+                <span>効果音 <span id="sound-status-display">ON</span></span>
+                <span>残り時間: <span id="timer-display">1:00</span></span>
+                <span>速度: <span id="speed-display">1秒間に 0.0 文字</span></span>
+                <span>ログイン中: <span id="username-display"></span></span>
+            </div>
+            <!-- タイピングエリア -->
+            <div id="typing-area">
+                <div id="word-display"></div>
+                <div id="input-display"></div>
+                <div id="hiragana-display"></div>
+                <div id="romaji-history-display">最後に押したキー:</div>
+            </div>
+            <!-- スコア表示 -->
+            <div id="score-display">スコア: 0</div>
+            <!-- メッセージ表示 -->
+            <div id="message-display" class="error-message"></div>
+
+        </div> <!-- /#game-screen -->
+    </main>
+
+    <footer>
+        <a href="https://x.com/TENM3169" target="_blank" rel="noopener noreferrer" title="開発者のXアカウント">
+            <img src="{{ url_for('static', filename='images/x_icon.png') }}" alt="X Icon" class="footer-icon">
+        </a>
+        <p> ← 左のｘの画像をクリックすると、ｘアカウントに飛びます。</p>
+        <p>エラーやお困りの際は、このXアカウントにお気軽にDMしてください。</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

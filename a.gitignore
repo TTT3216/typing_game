@@ -1,0 +1,22 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor specific files
+.idea/
+.vscode/
+
+# Environment variables (もし使う場合)
+.env
+
+# その他 (必要に応じて追加)
+# 例: instance/ (Flaskのインスタンスフォルダ)
+# 例: *.sqlite3 (SQLiteデータベースファイル)
