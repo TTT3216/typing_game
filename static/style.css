@@ -35,6 +35,15 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    border-bottom: 1px solid #eee; /* 区切り線 */
+    margin-bottom: 20px; /* 区切り線の下の間隔 */
+}
+
+.header-stats {
+    /* 右側の統計情報用のスタイル */
+    font-size: 0.9em;
+    color: #555; /* 少し薄い色 */
 }
 
 #menu-button {
@@ -95,6 +104,9 @@ footer p {
     }
     header h1 {
         font-size: 1.5em;
+    }
+    .header-stats {
+        align-self: flex-end; /* 統計情報は右端に */
     }
     main {
         padding: 15px;
